@@ -1,0 +1,30 @@
+{
+  "name": "ely.core",
+  "version": "1.0.6",
+  "description": "The core library of the ely framework",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --config jestconfig.json",
+    "lint": "tslint -p tsconfig.json",
+    "prepare" : "npm run build",
+    "prepublishOnly" : "npm test && npm run lint",
+    "preversion" : "npm run lint",
+    "version" : "git add -A src",
+    "postversion" : "git push && git push --tags"
+  },
+  "author": "Diego Ling",
+  "license": "ISC",
+  "files": [
+    "dist/**/*"
+  ],
+  "main": "dist/bin/index.js",
+  "types": "dist/bin/index.d.ts",
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "@types/node": "^11.11.3",
+    "jest": "^24.5.0",
+    "ts-jest": "^24.0.0",
+    "tslint": "^5.14.0",
+    "typescript": "^3.4.1"
+  }
+}
