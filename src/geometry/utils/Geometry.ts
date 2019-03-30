@@ -22,7 +22,7 @@
  *                                                                            *
  ******************************************************************************/
 
-import {PointConstValue} from "../../values/PointValue";
+import {PointConstValue} from "../PointValue";
 import {RectConst} from "../Rect";
 import {SphereConst} from "../Sphere";
 

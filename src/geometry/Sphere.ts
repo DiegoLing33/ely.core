@@ -23,7 +23,7 @@
  ******************************************************************************/
 
 import Guard from "../utils/Guard";
-import PointValue, {PointConstValue} from "../values/PointValue";
+import PointValue, {PointConstValue} from "./PointValue";
 
 /**
  * Опции круга

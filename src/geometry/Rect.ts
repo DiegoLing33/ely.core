@@ -22,8 +22,8 @@
  *                                                                            *
  ******************************************************************************/
 import Guard from "../utils/Guard";
-import PointValue, {PointConstValue} from "../values/PointValue";
-import SizeValue, {SizeConstValue} from "../values/SizeValue";
+import PointValue, {PointConstValue} from "./PointValue";
+import SizeValue, {SizeConstValue} from "./SizeValue";
 
 export interface IRectOptions {
     size?: SizeConstValue;
