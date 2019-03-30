@@ -22,9 +22,8 @@
  *                                                                            *
  ******************************************************************************/
 
-import {SizeConstValue} from "..";
 import HTMLView from "../dom/HTMLView";
-import SizeValue from "../geometry/SizeValue";
+import SizeValue, {SizeConstValue} from "../geometry/SizeValue";
 import ObservableArray from "../observable/properties/ObservableArray";
 import CanvasLayer from "./CanvasLayer";
 

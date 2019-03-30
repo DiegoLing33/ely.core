@@ -22,8 +22,9 @@
  *                                                                            *
  ******************************************************************************/
 
-import {PointConstValue, SizeConstValue} from "..";
 import HTMLView from "../dom/HTMLView";
+import {PointConstValue} from "../geometry/PointValue";
+import {SizeConstValue} from "../geometry/SizeValue";
 import Canvas from "./Canvas";
 import ContextElement from "./context/ContextElement";
 import ContextImage from "./context/ContextImage";
@@ -81,7 +82,7 @@ export default class CanvasLayer extends HTMLView {
 
     /**
      * Отрисовывает объект {@link ContextElement}
-     * @param {ContextElement|ContextRect|efContextImage} e
+     * @param {ContextElement|ContextRect|ContextImage} e
      */
     public draw(e: ContextElement): void {
         this.getContext().save();

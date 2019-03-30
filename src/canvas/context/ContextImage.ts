@@ -22,8 +22,8 @@
  *                                                                            *
  ******************************************************************************/
 
+import {RectConst} from "../../geometry/Rect";
 import ContextElement from "./ContextElement";
-import {RectConst} from "../..";
 
 /**
  * Изображение
@@ -109,6 +109,4 @@ export default class ContextImage extends ContextElement {
         this.__subImage = value;
         return this;
     }
-
-
 }

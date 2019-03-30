@@ -22,8 +22,8 @@
  *                                                                            *
  ******************************************************************************/
 
-import {RectConst} from "../..";
 import Color from "../../color/Color";
+import {RectConst} from "../../geometry/Rect";
 import ContextElement from "./ContextElement";
 
 /**

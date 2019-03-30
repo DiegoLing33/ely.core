@@ -17,7 +17,7 @@
  *                                                                            *
  * Проект: ely.core                                                           *
  *                                                                            *
- * Файл: index.ts                                                             *
+ * Файл: ely.core.ts                                                             *
  * Файл изменен: 31.03.2019 00:02:04                                          *
  *                                                                            *
  ******************************************************************************/
@@ -40,7 +40,7 @@ import EFMath from "./utils/EFMath";
 
 import SendFileRequest from "./web/request/SendFileRequest";
 import SendJsonRequest from "./web/request/SendJsonRequest";
-import URLRequest from "./web/request/URLRequest";
+import URLRequest, {URLRequestHeaderName, URLRequestMethod} from "./web/request/URLRequest";
 
 import LocalStorage from "./user/LocalStorage";
 
@@ -97,6 +97,8 @@ export {
     SendFileRequest,
     SendJsonRequest,
     URLRequest,
+    URLRequestMethod,
+    URLRequestHeaderName,
 
     LocalStorage,
 

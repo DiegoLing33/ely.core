@@ -22,8 +22,9 @@
  *                                                                            *
  ******************************************************************************/
 
-import {PointConstValue, RectConst} from "../..";
 import Color from "../../color/Color";
+import {PointConstValue} from "../../geometry/PointValue";
+import {RectConst} from "../../geometry/Rect";
 import SizeValue from "../../geometry/SizeValue";
 import Guard from "../../utils/Guard";
 import ContextElement from "./ContextElement";

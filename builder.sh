@@ -7,7 +7,7 @@ SOURCE_PATH="./src"
 BIN_PATH="${SOURCE_PATH}/bin"
 
 ##### Files
-INDEX_FILE_PATH="${BIN_PATH}/index.ts"
+INDEX_FILE_PATH="${BIN_PATH}/ely.core.ts"
 WEB_FILE_PATH="${BIN_PATH}/web.ts"
 
 ##### Binary paths

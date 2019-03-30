@@ -1,6 +1,6 @@
 {
   "name": "ely.core",
-  "version": "1.0.6",
+  "version": "1.0.11",
   "description": "The core library of the ely framework",
   "scripts": {
     "build": "tsc",
@@ -16,10 +16,11 @@
   "author": "Diego Ling",
   "license": "ISC",
   "files": [
-    "dist/**/*"
+    "products/ely.core.js",
+    "types/**/*"
   ],
-  "main": "dist/index.js",
-  "types": "dist/bin/index.d.ts",
+  "main": "products/ely.core.js",
+  "types": "types/ely.core.d.ts",
   "devDependencies": {
     "@types/jest": "^24.0.11",
     "@types/node": "^11.11.3",

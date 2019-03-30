@@ -22,8 +22,7 @@
  *                                                                            *
  ******************************************************************************/
 
-import {RectConst} from "../..";
-import Rect from "../../geometry/Rect";
+import Rect, {RectConst} from "../../geometry/Rect";
 
 /**
  * Элемент контекста
