@@ -31,7 +31,7 @@ import Utils from "../utils/Utils";
 /**
  * Опции {@link HTMLView}
  */
-export interface HTMLViewOptions {
+export interface IHTMLViewOptions {
     /**
      * Стилевой класс
      */
@@ -130,10 +130,10 @@ export default class HTMLView extends Observable {
 
     /**
      * Конструктор
-     * @param {HTMLViewOptions} options
+     * @param {IHTMLViewOptions} options
      * @protected
      */
-    protected constructor(options: HTMLViewOptions = {}) {
+    protected constructor(options: IHTMLViewOptions = {}) {
         super();
         if (options.selector) this.__view = document.querySelector(options.selector);
         else if (options.element) this.__view = options.element;
@@ -637,7 +637,7 @@ export default class HTMLView extends Observable {
 }
 
 /**
- * @typedef {Object} HTMLViewOptions
+ * @typedef {Object} IHTMLViewOptions
  * @typedef {string} [class]
  * @typedef {string} [display]
  * @typedef {boolean} [hidden]

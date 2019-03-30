@@ -18,44 +18,44 @@
  * Проект: ely.core                                                           *
  *                                                                            *
  * Файл: index.ts                                                             *
- * Файл изменен: 27.03.2019 18:32:29                                          *
+ * Файл изменен: 31.03.2019 00:02:04                                          *
  *                                                                            *
  ******************************************************************************/
 
-import Guard from "../utils/Guard";
+import Guard from "./utils/Guard";
 
-import Observable from "../observable/Observable";
-import ObservableArray from "../observable/properties/ObservableArray";
-import ObservableBoolean from "../observable/properties/ObservableBoolean";
-import ObservableDictionary from "../observable/properties/ObservableDictionary";
-import ObservableProperty from "../observable/properties/ObservableProperty";
+import Observable from "./observable/Observable";
+import ObservableArray from "./observable/properties/ObservableArray";
+import ObservableBoolean from "./observable/properties/ObservableBoolean";
+import ObservableDictionary from "./observable/properties/ObservableDictionary";
+import ObservableProperty from "./observable/properties/ObservableProperty";
 
-import Time from "../time/Time";
-import Timer from "../time/Timer";
+import Time from "./time/Time";
+import Timer from "./time/Timer";
 
-import Color from "../color/Color";
-import {ColorUtils} from "../color/ColorUtils";
+import Color from "./color/Color";
+import {ColorUtils} from "./color/ColorUtils";
 
-import EFMath from "../utils/efMath";
+import EFMath from "./utils/EFMath";
 
-import SendFileRequest from "../web/request/SendFileRequest";
-import SendJsonRequest from "../web/request/SendJsonRequest";
-import URLRequest from "../web/request/URLRequest";
+import SendFileRequest from "./web/request/SendFileRequest";
+import SendJsonRequest from "./web/request/SendJsonRequest";
+import URLRequest from "./web/request/URLRequest";
 
-import LocalStorage from "../user/LocalStorage";
+import LocalStorage from "./user/LocalStorage";
 
-import Encrypt from "../secure/encrypt";
-import DeviceDetector from "../utils/DeviceDetector";
-import Utils from "../utils/Utils";
-import XLogger from "../utils/XLogger";
+import Encrypt from "./secure/encrypt";
+import DeviceDetector from "./utils/DeviceDetector";
+import Utils from "./utils/Utils";
+import XLogger from "./utils/XLogger";
 
-import {Rect, RectConst} from "../geometry/Rect";
-import Sphere, {SphereConst} from "../geometry/Sphere";
-import Geometry from "../geometry/utils/Geometry";
-import PointValue, {PointConstValue} from "../values/PointValue";
-import SizeValue, {SizeConstValue} from "../values/SizeValue";
+import PointValue, {PointConstValue} from "./geometry/PointValue";
+import Rect, {RectConst} from "./geometry/Rect";
+import SizeValue, {SizeConstValue} from "./geometry/SizeValue";
+import Sphere, {SphereConst} from "./geometry/Sphere";
+import Geometry from "./geometry/utils/Geometry";
 
-import HTMLView, {HTMLViewOptions} from "../dom/HTMLView";
+import HTMLView, {IHTMLViewOptions} from "./dom/HTMLView";
 
 /**
  * Запросы
@@ -118,5 +118,5 @@ export {
     Encrypt,
 
     HTMLView,
-    HTMLViewOptions,
+    IHTMLViewOptions,
 };

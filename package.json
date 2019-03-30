@@ -17,7 +17,7 @@
   "files": [
     "dist/**/*"
   ],
-  "main": "dist/bin/index.js",
+  "main": "dist/index.js",
   "types": "dist/bin/index.d.ts",
   "devDependencies": {
     "@types/jest": "^24.0.11",

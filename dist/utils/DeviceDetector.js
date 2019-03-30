@@ -24,7 +24,7 @@
  ******************************************************************************/
 Object.defineProperty(exports, "__esModule", { value: true });
 const Observable_1 = require("../observable/Observable");
-const SizeValue_1 = require("../values/SizeValue");
+const SizeValue_1 = require("../geometry/SizeValue");
 /**
  * Детектор устройств и системы
  * @class DeviceDetector

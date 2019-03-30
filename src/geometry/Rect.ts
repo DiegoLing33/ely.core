@@ -92,7 +92,7 @@ export class RectConst {
  * Прямоугольник
  * @class Rect
  */
-export class Rect extends RectConst {
+export default class Rect extends RectConst {
 
     /**
      * Конструктор

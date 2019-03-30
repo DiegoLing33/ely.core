@@ -22,7 +22,7 @@
  *                                                                            *
  ******************************************************************************/
 import Observable from "../observable/Observable";
-import { SizeConstValue } from "../values/SizeValue";
+import { SizeConstValue } from "../geometry/SizeValue";
 /**
  * Детектор устройств и системы
  * @class DeviceDetector
