@@ -22,7 +22,7 @@
  *                                                                            *
  ******************************************************************************/
 
-import * as Guard from "../utils/Guard";
+import Guard from "../utils/Guard";
 
 import Observable from "../observable/Observable";
 import ObservableArray from "../observable/properties/ObservableArray";
@@ -36,9 +36,6 @@ import Timer from "../time/Timer";
 import Color from "../color/Color";
 import {ColorUtils} from "../color/ColorUtils";
 
-import SizeValue from "../values/SizeValue";
-import VectorValue from "../values/VectorValue";
-
 import EFMath from "../utils/efMath";
 
 import SendFileRequest from "../web/request/SendFileRequest";
@@ -47,30 +44,18 @@ import URLRequest from "../web/request/URLRequest";
 
 import LocalStorage from "../user/LocalStorage";
 
+import Encrypt from "../secure/encrypt";
 import DeviceDetector from "../utils/DeviceDetector";
 import Utils from "../utils/Utils";
 import XLogger from "../utils/XLogger";
 
-import Encrypt from "../secure/encrypt";
+import {Rect, RectConst} from "../geometry/Rect";
+import Sphere, {SphereConst} from "../geometry/Sphere";
+import Geometry from "../geometry/utils/Geometry";
+import PointValue, {PointConstValue} from "../values/PointValue";
+import SizeValue, {SizeConstValue} from "../values/SizeValue";
 
-/**
- * Наблюдатели
- */
-const Observers = {
-    Observable,
-    ObservableArray,
-    ObservableBoolean,
-    ObservableDictionary,
-    ObservableProperty,
-};
-
-/**
- * Значения
- */
-const Values = {
-    SizeValue,
-    VectorValue,
-};
+import HTMLView, {HTMLViewOptions} from "../dom/HTMLView";
 
 /**
  * Запросы
@@ -102,9 +87,23 @@ export {
     Time,
     Timer,
 
-    Observers,
+    Observable,
+    ObservableArray,
+    ObservableBoolean,
+    ObservableDictionary,
+    ObservableProperty,
+
     Guard,
-    Values,
+
+    Geometry,
+    Rect,
+    RectConst,
+    Sphere,
+    SphereConst,
+    PointValue,
+    PointConstValue,
+    SizeValue,
+    SizeConstValue,
 
     DeviceDetector,
     Utils,
@@ -117,4 +116,7 @@ export {
     User,
 
     Encrypt,
+
+    HTMLView,
+    HTMLViewOptions,
 };
