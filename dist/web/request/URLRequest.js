@@ -1,3 +1,4 @@
+"use strict";
 /******************************************************************************
  *                                                                            *
  * ,--. o                   |    o                                            *
@@ -21,61 +22,48 @@
  * Файл изменен: 27.02.2019 03:07:17                                          *
  *                                                                            *
  ******************************************************************************/
-
-import Observable from "../../observable/Observable";
-import Guard from "../../utils/Guard";
-
-/**
- * Тип возвращаемого ответа
- */
-export type TURLCallback = (response: any, result: boolean) => void;
-
-/**
- * Прогресс выполнения запроса изменен
- */
-export type TURLProgressChangedCallback = (loadedBytes: number, totalBytes: number) => void;
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const Observable_1 = require("../../observable/Observable");
+const Guard_1 = require("../../utils/Guard");
 /**
  * Методы передачи параметров
  * @enum
  */
-export enum URLRequestMethod {
-    GET = "GET",
-    POST = "POST",
-}
-
+var URLRequestMethod;
+(function (URLRequestMethod) {
+    URLRequestMethod["GET"] = "GET";
+    URLRequestMethod["POST"] = "POST";
+})(URLRequestMethod = exports.URLRequestMethod || (exports.URLRequestMethod = {}));
 /**
  * Названия заголовков запроса
  * @enum
  */
-export enum URLRequestHeaderName {
-    contentType = "Content-type",
-}
-
-/**
- * Данные запроса
- */
-export interface ITRequestData {
-    [name: string]: any;
-}
-
-/**
- * Опции {@link URLRequest}
- */
-export interface IURLRequestOptions {
-    url: string;
-    method?: URLRequestMethod;
-    async?: boolean;
-    data?: ITRequestData;
-}
-
+var URLRequestHeaderName;
+(function (URLRequestHeaderName) {
+    URLRequestHeaderName["contentType"] = "Content-type";
+})(URLRequestHeaderName = exports.URLRequestHeaderName || (exports.URLRequestHeaderName = {}));
 /**
  * URL запрос
  * @class URLRequest
  * @augments {Observable}
  */
-export default class URLRequest extends Observable {
-
+class URLRequest extends Observable_1.default {
+    /**
+     * Конструктор
+     * @param options
+     */
+    constructor(options) {
+        super();
+        /**
+         * @ignore
+         */
+        this.__async = true;
+        this.__url = options.url;
+        this.__xhr = new XMLHttpRequest();
+        this.__method = options.method || URLRequestMethod.GET;
+        this.__data = options.data || {};
+        Guard_1.default.variable(options.async, value => this.__async = value, true);
+    }
     /**
      * Отправляет GET запрос
      *
@@ -83,101 +71,58 @@ export default class URLRequest extends Observable {
      * @param {* | TURLCallback} data
      * @param {TURLCallback} callback
      */
-    public static sendGET(url: string, data?: any | TURLCallback, callback?: TURLCallback): void {
-        if (typeof data === "function") new URLRequest({url}).send(data);
-        else new URLRequest({url, data}).send(callback);
+    static sendGET(url, data, callback) {
+        if (typeof data === "function")
+            new URLRequest({ url }).send(data);
+        else
+            new URLRequest({ url, data }).send(callback);
     }
-
-    /**
-     * @ignore
-     */
-    protected readonly __url: string;
-
-    /**
-     * @ignore
-     */
-    protected readonly __data: ITRequestData;
-
-    /**
-     * @ignore
-     */
-    protected readonly __xhr: XMLHttpRequest;
-
-    /**
-     * @ignore
-     */
-    protected __method: URLRequestMethod;
-
-    /**
-     * @ignore
-     */
-    protected __async: boolean = true;
-
-    /**
-     * Конструктор
-     * @param options
-     */
-    public constructor(options: IURLRequestOptions) {
-        super();
-        this.__url = options.url;
-        this.__xhr = new XMLHttpRequest();
-        this.__method = options.method || URLRequestMethod.GET;
-        this.__data = options.data || {};
-        Guard.variable<boolean>(options.async, value => this.__async = value, true);
-    }
-
     /**
      * Возвращает URL запроса
      * @return {string}
      */
-    public getURL(): string {
+    getURL() {
         return this.__url;
     }
-
     /**
      * Возвращает данные запроса
      * @return {*}
      */
-    public getData(): ITRequestData {
+    getData() {
         return this.__data;
     }
-
     /**
      * Возвращает true, если запрос асинхронный
      * @return {boolean}
      */
-    public isAsync(): boolean {
+    isAsync() {
         return this.__async;
     }
-
     /**
      * Возвращает метод
      * @return URLRequestMethod
      */
-    public getMethod(): URLRequestMethod {
+    getMethod() {
         return this.__method;
     }
-
     /**
      * Устанавливает данные
      * @param name
      * @param value
      */
-    public setData(name: string, value: any): URLRequest {
+    setData(name, value) {
         this.__data[name] = value;
         return this;
     }
-
     /**
      * Выполняет запрос
      * @param {TURLCallback} callback
      * @return URLRequest
      */
-    public send(callback?: TURLCallback): void {
+    send(callback) {
         this.__prepareXMLHttpRequestCore(callback);
         this.getXMLHttpRequest().send();
     }
-
     /**
      * Устанавливает заголовок
      *
@@ -185,19 +130,17 @@ export default class URLRequest extends Observable {
      * @param {string} value - значение заголовка
      * @return {this}
      */
-    public setHeader(name: string | URLRequestHeaderName, value: string): URLRequest {
+    setHeader(name, value) {
         this.getXMLHttpRequest().setRequestHeader(name, value);
         return this;
     }
-
     /**
      * Возвращает ядро запроса
      * @return {XMLHttpRequest}
      */
-    public getXMLHttpRequest(): XMLHttpRequest {
+    getXMLHttpRequest() {
         return this.__xhr;
     }
-
     /**
      * Добавляет наблюдатель: изменение прогресса
      *
@@ -205,11 +148,10 @@ export default class URLRequest extends Observable {
      *
      * @param o - наблюдатель
      */
-    public addProgressChangedObserver(o: TURLProgressChangedCallback): URLRequest {
+    addProgressChangedObserver(o) {
         this.addObserver("progressChanged", o);
         return this;
     }
-
     /**
      * Добавляет наблюдатель: завершения выполнения запроса
      *
@@ -217,25 +159,23 @@ export default class URLRequest extends Observable {
      *
      * @param o - наблюдатель
      */
-    public addReadyObserver(o: TURLCallback): URLRequest {
+    addReadyObserver(o) {
         this.addObserver("ready", o);
         return this;
     }
-
     /**
      * Возвращает строку параметров
      * @private
      */
-    protected __getParametersString(): string {
+    __getParametersString() {
         return Object
             .keys(this.getData())
             .map((key) => {
-                return key + "=" + encodeURIComponent(this.getData()[key]);
-            })
+            return key + "=" + encodeURIComponent(this.getData()[key]);
+        })
             .join("&");
     }
-
-    protected __prepareXMLHttpRequestCore(callback?: TURLCallback): void {
+    __prepareXMLHttpRequestCore(callback) {
         this.getXMLHttpRequest().open(this.getMethod(), this.getURL() + "?" +
             this.__getParametersString(), this.isAsync());
         this.getXMLHttpRequest().onprogress = ev => {
@@ -244,17 +184,20 @@ export default class URLRequest extends Observable {
         this.getXMLHttpRequest().onreadystatechange = () => {
             if (this.getXMLHttpRequest().readyState === 4) {
                 if (this.getXMLHttpRequest().status === 200) {
-                    if (callback) callback(this.getXMLHttpRequest().responseText, true);
+                    if (callback)
+                        callback(this.getXMLHttpRequest().responseText, true);
                     this.notificate("ready", [this.getXMLHttpRequest().responseText, true]);
-                } else {
-                    if (callback) callback(null, false);
+                }
+                else {
+                    if (callback)
+                        callback(null, false);
                     this.notificate("ready", [null, false]);
                 }
             }
         };
     }
 }
-
+exports.default = URLRequest;
 /**
  * @typedef {Object} IURLRequestOptions
  * @property {string} url
@@ -262,14 +205,12 @@ export default class URLRequest extends Observable {
  * @property {boolean} [async]
  * @property {*} data
  */
-
 /**
  * Прогресс изменен
  * @callback TURLProgressChangedCallback
  * @param {number} loadedBytes - отпарвлено
  * @param {number} totalBytes - необходимо отправить
  */
-
 /**
  * Ответ запроса
  * @callback TURLCallback

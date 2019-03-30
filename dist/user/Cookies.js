@@ -1,3 +1,4 @@
+"use strict";
 /******************************************************************************
  *                                                                            *
  * ,--. o                   |    o                                            *
@@ -17,28 +18,57 @@
  *                                                                            *
  * Проект: ely.core                                                           *
  *                                                                            *
- * Файл: Geometry.test.ts                                                     *
- * Файл изменен: 30.03.2019 23:13:46                                          *
+ * Файл: Cookies.ts                                                           *
+ * Файл изменен: 27.02.2019 01:01:19                                          *
  *                                                                            *
  ******************************************************************************/
-import Sphere from "../src/geometry/Sphere";
-import Geometry from "../src/geometry/utils/Geometry";
-import PointValue from "../src/geometry/PointValue";
-
-describe("Geometry tests", () => {
-
-    test("Point collision", () => {
-        const sphereA = new Sphere({radius: 5, position: new PointValue({x: 0, y: 0})});
-        const sphereB = new Sphere({radius: 2, position: new PointValue({x: 0, y: 0})});
-        const sphereC = new Sphere({radius: 2, position: new PointValue({x: 8, y: 0})});
-        const sphereD = new Sphere({radius: 2, position: new PointValue({x: 7, y: 0})});
-
-        console.log("Dist A & B", Geometry.getDistBetweenSpheres(sphereA, sphereB));
-        console.log("Dist A & C", Geometry.getDistBetweenSpheres(sphereA, sphereC));
-        console.log("Dist A & D", Geometry.getDistBetweenSpheres(sphereA, sphereD));
-
-        expect(Geometry.isSpheresCollide(sphereA, sphereB)).toBeTruthy();
-        expect(Geometry.isSpheresCollide(sphereA, sphereC)).toBeFalsy();
-        expect(Geometry.isSpheresCollide(sphereA, sphereD)).toBeTruthy();
-    });
-});
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Печеньки
+ *
+ * @deprecated Используйте {@link LocalStorage}
+ */
+class Cookies {
+    /**
+     * Возвращает данные cookie
+     * @param name
+     */
+    static get(name) {
+        const matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)"));
+        const val = matches ? decodeURIComponent(matches[1]) : null;
+        if (val && (val === "undefined" || val === "null"))
+            return null;
+        return val;
+    }
+    /**
+     * Устанавливает cookie
+     * @param name
+     * @param value
+     * @param options
+     */
+    static set(name, value, options) {
+        options = options || {};
+        let expires = options.expires;
+        if (typeof expires === "number" && expires) {
+            const d = new Date();
+            d.setTime(d.getTime() + expires);
+            expires = options.expires = d;
+        }
+        if (expires && expires.toUTCString) {
+            options.expires = expires.toUTCString();
+        }
+        value = encodeURIComponent(value);
+        let updatedCookie = name + "=" + value;
+        for (const propName in options) {
+            if (!options.hasOwnProperty(propName))
+                continue;
+            updatedCookie += "; " + propName;
+            const propValue = options[propName];
+            if (propValue !== true) {
+                updatedCookie += "=" + propValue;
+            }
+        }
+        document.cookie = updatedCookie;
+    }
+}
+exports.default = Cookies;

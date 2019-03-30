@@ -1,3 +1,4 @@
+"use strict";
 /******************************************************************************
  *                                                                            *
  * ,--. o                   |    o                                            *
@@ -21,75 +22,62 @@
  * Файл изменен: 27.03.2019 18:56:06                                          *
  *                                                                            *
  ******************************************************************************/
-
-import Time from "../time/Time";
-import Guard from "../utils/Guard";
-import Cookies from "./Cookies";
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const Time_1 = require("../time/Time");
+const Guard_1 = require("../utils/Guard");
+const Cookies_1 = require("./Cookies");
 /**
  * Локальное хранилище
  * @class LocalStorage
  */
-export default class LocalStorage {
-
-    /**
-     * Стандартное локальное хранилище
-     * @type {LocalStorage}
-     */
-    public static default: LocalStorage = new LocalStorage({name: "ef"});
-
-    /**
-     * Имя хранилища
-     * @protected
-     * @ignore
-     */
-    protected readonly __name: string;
-
+class LocalStorage {
     /**
      * Создает локальное хранилище
      * @param {{ name: string }} props
      */
-    public constructor(props: { name: string }) {
+    constructor(props) {
         this.__name = props.name;
     }
-
     /**
      * Возвращает имя хранилища
      * @return {string}
      */
-    public getName(): string {
+    getName() {
         return this.__name;
     }
-
     /**
      * Устанавливает значение локального хранилища
      * @param {string} name - имя переменной
      * @param {*} value - значение
      * @param {Time|number} [time] - срок хранения
      */
-    public set(name: string, value: any, time?: Time | number): LocalStorage {
+    set(name, value, time) {
         name = `${this.getName()}-${name}`;
-        if (time && time instanceof Time) time = time.getTime();
-        Cookies.set(name, JSON.stringify(value), {expires: time || 1000 * 60 * 60 * 24 * 356});
+        if (time && time instanceof Time_1.default)
+            time = time.getTime();
+        Cookies_1.default.set(name, JSON.stringify(value), { expires: time || 1000 * 60 * 60 * 24 * 356 });
         return this;
     }
-
     /**
      * Возвращает значение хранилища
      * @param {string} name
      * @return {*}
      */
-    public get(name: string): any {
+    get(name) {
         name = `${this.getName()}-${name}`;
-        return Guard.safeJsonParse(Cookies.get(name) || "", null);
+        return Guard_1.default.safeJsonParse(Cookies_1.default.get(name) || "", null);
     }
-
     /**
      * Удаляет переменную из локального хранилища
      * @param name
      */
-    public remove(name: string): LocalStorage {
+    remove(name) {
         return this.set(name, null, -1);
     }
-
 }
+/**
+ * Стандартное локальное хранилище
+ * @type {LocalStorage}
+ */
+LocalStorage.default = new LocalStorage({ name: "ef" });
+exports.default = LocalStorage;

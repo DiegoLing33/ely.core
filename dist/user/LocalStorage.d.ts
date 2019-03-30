@@ -21,75 +21,51 @@
  * Файл изменен: 27.03.2019 18:56:06                                          *
  *                                                                            *
  ******************************************************************************/
-
 import Time from "../time/Time";
-import Guard from "../utils/Guard";
-import Cookies from "./Cookies";
-
 /**
  * Локальное хранилище
  * @class LocalStorage
  */
 export default class LocalStorage {
-
     /**
      * Стандартное локальное хранилище
      * @type {LocalStorage}
      */
-    public static default: LocalStorage = new LocalStorage({name: "ef"});
-
+    static default: LocalStorage;
     /**
      * Имя хранилища
      * @protected
      * @ignore
      */
     protected readonly __name: string;
-
     /**
      * Создает локальное хранилище
      * @param {{ name: string }} props
      */
-    public constructor(props: { name: string }) {
-        this.__name = props.name;
-    }
-
+    constructor(props: {
+        name: string;
+    });
     /**
      * Возвращает имя хранилища
      * @return {string}
      */
-    public getName(): string {
-        return this.__name;
-    }
-
+    getName(): string;
     /**
      * Устанавливает значение локального хранилища
      * @param {string} name - имя переменной
      * @param {*} value - значение
      * @param {Time|number} [time] - срок хранения
      */
-    public set(name: string, value: any, time?: Time | number): LocalStorage {
-        name = `${this.getName()}-${name}`;
-        if (time && time instanceof Time) time = time.getTime();
-        Cookies.set(name, JSON.stringify(value), {expires: time || 1000 * 60 * 60 * 24 * 356});
-        return this;
-    }
-
+    set(name: string, value: any, time?: Time | number): LocalStorage;
     /**
      * Возвращает значение хранилища
      * @param {string} name
      * @return {*}
      */
-    public get(name: string): any {
-        name = `${this.getName()}-${name}`;
-        return Guard.safeJsonParse(Cookies.get(name) || "", null);
-    }
-
+    get(name: string): any;
     /**
      * Удаляет переменную из локального хранилища
      * @param name
      */
-    public remove(name: string): LocalStorage {
-        return this.set(name, null, -1);
-    }
-
+    remove(name: string): LocalStorage;
 }

@@ -1,3 +1,4 @@
+"use strict";
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + ,--. o                   |    o                                            +
  + |   |.,---.,---.,---.    |    .,---.,---.                                  +
@@ -17,13 +18,12 @@
  + Файл: Guard.ts                                                             +
  + Файл создан: 23.11.2018 23:03:37                                           +
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Защита данных
  * @class Guard
  */
-export default class Guard {
-
+class Guard {
     /**
      * Безопасная операция над переменной
      *
@@ -46,11 +46,12 @@ export default class Guard {
      * ```
      *
      */
-    public static variable<T>(testVar: any, callback: (value: T) => void, opt?: T): void {
-        if (testVar !== undefined && testVar !== null) callback(testVar);
-        else if (Guard.isSet(opt)) callback(opt!);
+    static variable(testVar, callback, opt) {
+        if (testVar !== undefined && testVar !== null)
+            callback(testVar);
+        else if (Guard.isSet(opt))
+            callback(opt);
     }
-
     /**
      * Безопасная операция над переменной и выполнение операции через объект и контекст
      *
@@ -93,30 +94,27 @@ export default class Guard {
      * // mc.b = "theB"
      * ```
      */
-    public static variableAndSet<T>(testVar: any, callback: (value: T) => void, context: any, opt?: T): void {
-        Guard.variable(testVar, (value: T) => {
+    static variableAndSet(testVar, callback, context, opt) {
+        Guard.variable(testVar, (value) => {
             callback.call(context, value);
         }, opt);
     }
-
     /**
      * Возвращает true, если obj не undefined
      * @param {*} obj
      * @return {boolean}
      */
-    public static isSet(obj: any): boolean {
+    static isSet(obj) {
         return obj !== undefined;
     }
-
     /**
      * Возвращает true, если obj undefined или null.
      * @param {*} obj
      * @return {boolean}
      */
-    public static isNone(obj: any): obj is null {
+    static isNone(obj) {
         return obj === undefined || obj === null;
     }
-
     /**
      * Парсинг JSON *без try/catch* конструкции
      *
@@ -135,11 +133,13 @@ export default class Guard {
      * ```
      *
      */
-    public static safeJsonParse(jsonString: string, opt: any = {}): any {
+    static safeJsonParse(jsonString, opt = {}) {
         try {
             return JSON.parse(jsonString);
-        } catch (e) {
+        }
+        catch (e) {
             return opt;
         }
     }
 }
+exports.default = Guard;

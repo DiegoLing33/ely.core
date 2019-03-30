@@ -21,44 +21,36 @@
  * Файл изменен: 27.02.2019 03:07:17                                          *
  *                                                                            *
  ******************************************************************************/
-
 import Observable from "../../observable/Observable";
-import Guard from "../../utils/Guard";
-
 /**
  * Тип возвращаемого ответа
  */
-export type TURLCallback = (response: any, result: boolean) => void;
-
+export declare type TURLCallback = (response: any, result: boolean) => void;
 /**
  * Прогресс выполнения запроса изменен
  */
-export type TURLProgressChangedCallback = (loadedBytes: number, totalBytes: number) => void;
-
+export declare type TURLProgressChangedCallback = (loadedBytes: number, totalBytes: number) => void;
 /**
  * Методы передачи параметров
  * @enum
  */
-export enum URLRequestMethod {
+export declare enum URLRequestMethod {
     GET = "GET",
-    POST = "POST",
+    POST = "POST"
 }
-
 /**
  * Названия заголовков запроса
  * @enum
  */
-export enum URLRequestHeaderName {
-    contentType = "Content-type",
+export declare enum URLRequestHeaderName {
+    contentType = "Content-type"
 }
-
 /**
  * Данные запроса
  */
 export interface ITRequestData {
     [name: string]: any;
 }
-
 /**
  * Опции {@link URLRequest}
  */
@@ -68,14 +60,12 @@ export interface IURLRequestOptions {
     async?: boolean;
     data?: ITRequestData;
 }
-
 /**
  * URL запрос
  * @class URLRequest
  * @augments {Observable}
  */
 export default class URLRequest extends Observable {
-
     /**
      * Отправляет GET запрос
      *
@@ -83,101 +73,64 @@ export default class URLRequest extends Observable {
      * @param {* | TURLCallback} data
      * @param {TURLCallback} callback
      */
-    public static sendGET(url: string, data?: any | TURLCallback, callback?: TURLCallback): void {
-        if (typeof data === "function") new URLRequest({url}).send(data);
-        else new URLRequest({url, data}).send(callback);
-    }
-
+    static sendGET(url: string, data?: any | TURLCallback, callback?: TURLCallback): void;
     /**
      * @ignore
      */
     protected readonly __url: string;
-
     /**
      * @ignore
      */
     protected readonly __data: ITRequestData;
-
     /**
      * @ignore
      */
     protected readonly __xhr: XMLHttpRequest;
-
     /**
      * @ignore
      */
     protected __method: URLRequestMethod;
-
     /**
      * @ignore
      */
-    protected __async: boolean = true;
-
+    protected __async: boolean;
     /**
      * Конструктор
      * @param options
      */
-    public constructor(options: IURLRequestOptions) {
-        super();
-        this.__url = options.url;
-        this.__xhr = new XMLHttpRequest();
-        this.__method = options.method || URLRequestMethod.GET;
-        this.__data = options.data || {};
-        Guard.variable<boolean>(options.async, value => this.__async = value, true);
-    }
-
+    constructor(options: IURLRequestOptions);
     /**
      * Возвращает URL запроса
      * @return {string}
      */
-    public getURL(): string {
-        return this.__url;
-    }
-
+    getURL(): string;
     /**
      * Возвращает данные запроса
      * @return {*}
      */
-    public getData(): ITRequestData {
-        return this.__data;
-    }
-
+    getData(): ITRequestData;
     /**
      * Возвращает true, если запрос асинхронный
      * @return {boolean}
      */
-    public isAsync(): boolean {
-        return this.__async;
-    }
-
+    isAsync(): boolean;
     /**
      * Возвращает метод
      * @return URLRequestMethod
      */
-    public getMethod(): URLRequestMethod {
-        return this.__method;
-    }
-
+    getMethod(): URLRequestMethod;
     /**
      * Устанавливает данные
      * @param name
      * @param value
      */
-    public setData(name: string, value: any): URLRequest {
-        this.__data[name] = value;
-        return this;
-    }
-
+    setData(name: string, value: any): URLRequest;
     /**
      * Выполняет запрос
      * @param {TURLCallback} callback
      * @return URLRequest
      */
-    public send(callback?: TURLCallback): void {
-        this.__prepareXMLHttpRequestCore(callback);
-        this.getXMLHttpRequest().send();
-    }
-
+    send(callback?: TURLCallback): void;
     /**
      * Устанавливает заголовок
      *
@@ -185,19 +138,12 @@ export default class URLRequest extends Observable {
      * @param {string} value - значение заголовка
      * @return {this}
      */
-    public setHeader(name: string | URLRequestHeaderName, value: string): URLRequest {
-        this.getXMLHttpRequest().setRequestHeader(name, value);
-        return this;
-    }
-
+    setHeader(name: string | URLRequestHeaderName, value: string): URLRequest;
     /**
      * Возвращает ядро запроса
      * @return {XMLHttpRequest}
      */
-    public getXMLHttpRequest(): XMLHttpRequest {
-        return this.__xhr;
-    }
-
+    getXMLHttpRequest(): XMLHttpRequest;
     /**
      * Добавляет наблюдатель: изменение прогресса
      *
@@ -205,11 +151,7 @@ export default class URLRequest extends Observable {
      *
      * @param o - наблюдатель
      */
-    public addProgressChangedObserver(o: TURLProgressChangedCallback): URLRequest {
-        this.addObserver("progressChanged", o);
-        return this;
-    }
-
+    addProgressChangedObserver(o: TURLProgressChangedCallback): URLRequest;
     /**
      * Добавляет наблюдатель: завершения выполнения запроса
      *
@@ -217,44 +159,14 @@ export default class URLRequest extends Observable {
      *
      * @param o - наблюдатель
      */
-    public addReadyObserver(o: TURLCallback): URLRequest {
-        this.addObserver("ready", o);
-        return this;
-    }
-
+    addReadyObserver(o: TURLCallback): URLRequest;
     /**
      * Возвращает строку параметров
      * @private
      */
-    protected __getParametersString(): string {
-        return Object
-            .keys(this.getData())
-            .map((key) => {
-                return key + "=" + encodeURIComponent(this.getData()[key]);
-            })
-            .join("&");
-    }
-
-    protected __prepareXMLHttpRequestCore(callback?: TURLCallback): void {
-        this.getXMLHttpRequest().open(this.getMethod(), this.getURL() + "?" +
-            this.__getParametersString(), this.isAsync());
-        this.getXMLHttpRequest().onprogress = ev => {
-            this.notificate("progressChanged", [ev.loaded, ev.total]);
-        };
-        this.getXMLHttpRequest().onreadystatechange = () => {
-            if (this.getXMLHttpRequest().readyState === 4) {
-                if (this.getXMLHttpRequest().status === 200) {
-                    if (callback) callback(this.getXMLHttpRequest().responseText, true);
-                    this.notificate("ready", [this.getXMLHttpRequest().responseText, true]);
-                } else {
-                    if (callback) callback(null, false);
-                    this.notificate("ready", [null, false]);
-                }
-            }
-        };
-    }
+    protected __getParametersString(): string;
+    protected __prepareXMLHttpRequestCore(callback?: TURLCallback): void;
 }
-
 /**
  * @typedef {Object} IURLRequestOptions
  * @property {string} url
@@ -262,14 +174,12 @@ export default class URLRequest extends Observable {
  * @property {boolean} [async]
  * @property {*} data
  */
-
 /**
  * Прогресс изменен
  * @callback TURLProgressChangedCallback
  * @param {number} loadedBytes - отпарвлено
  * @param {number} totalBytes - необходимо отправить
  */
-
 /**
  * Ответ запроса
  * @callback TURLCallback

@@ -1,3 +1,4 @@
+"use strict";
 /******************************************************************************
  *                                                                            *
  * ,--. o                   |    o                                            *
@@ -17,28 +18,26 @@
  *                                                                            *
  * Проект: ely.core                                                           *
  *                                                                            *
- * Файл: Geometry.test.ts                                                     *
- * Файл изменен: 30.03.2019 23:13:46                                          *
+ * Файл: EFMath.ts                                                            *
+ * Файл изменен: 06.01.2019 05:18:48                                          *
  *                                                                            *
  ******************************************************************************/
-import Sphere from "../src/geometry/Sphere";
-import Geometry from "../src/geometry/utils/Geometry";
-import PointValue from "../src/geometry/PointValue";
-
-describe("Geometry tests", () => {
-
-    test("Point collision", () => {
-        const sphereA = new Sphere({radius: 5, position: new PointValue({x: 0, y: 0})});
-        const sphereB = new Sphere({radius: 2, position: new PointValue({x: 0, y: 0})});
-        const sphereC = new Sphere({radius: 2, position: new PointValue({x: 8, y: 0})});
-        const sphereD = new Sphere({radius: 2, position: new PointValue({x: 7, y: 0})});
-
-        console.log("Dist A & B", Geometry.getDistBetweenSpheres(sphereA, sphereB));
-        console.log("Dist A & C", Geometry.getDistBetweenSpheres(sphereA, sphereC));
-        console.log("Dist A & D", Geometry.getDistBetweenSpheres(sphereA, sphereD));
-
-        expect(Geometry.isSpheresCollide(sphereA, sphereB)).toBeTruthy();
-        expect(Geometry.isSpheresCollide(sphereA, sphereC)).toBeFalsy();
-        expect(Geometry.isSpheresCollide(sphereA, sphereD)).toBeTruthy();
-    });
-});
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Библиотека математики
+ */
+class EFMath {
+    /**
+     * Преобразовывает значение переменной X из одного диапазона в другой.
+     *
+     * @param x
+     * @param inMin
+     * @param inMax
+     * @param outMin
+     * @param outMax
+     */
+    static map(x, inMin, inMax, outMin, outMax) {
+        return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+    }
+}
+exports.default = EFMath;

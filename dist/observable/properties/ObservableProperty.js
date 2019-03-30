@@ -1,3 +1,4 @@
+"use strict";
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + ,--. o                   |    o                                            +
  + |   |.,---.,---.,---.    |    .,---.,---.                                  +
@@ -17,81 +18,47 @@
  + Файл: ObservableProperty                                             +
  + Файл создан: 23.11.2018 23:03:37                                           +
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-import Guard from "../../utils/Guard";
-import Observable from "../Observable";
-
-/**
- * Новый обработчик
- */
-type ObservablePropChangeHandler<T> = (value: T, oldVal?: T) => void;
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const Guard_1 = require("../../utils/Guard");
+const Observable_1 = require("../Observable");
 /**
  * Обрабатываемое значение
  * @class ObservableProperty
  * @template T
  * @augments Observable
  */
-export default class ObservableProperty<T> extends Observable {
-
-    /**
-     * Простое автоматизированное свойство
-     * @param context
-     * @param value
-     * @param prop
-     */
-    public static simplePropertyAccess(context: any, value: any, prop: ObservableProperty<any>): any {
-        if (!Guard.isSet(value)) return prop.get(null);
-        prop.set(value);
-        return context;
-    }
-
-    /**
-     * Значение
-     * @protected
-     * @type {T}
-     */
-    protected value: T | null;
-
-    /**
-     * Флаг защиты от перезаписи
-     * @ignore
-     * @protected
-     * @type {boolean}
-     */
-    protected isOverwriteProtected: boolean = false;
-
+class ObservableProperty extends Observable_1.default {
     /**
      * Конструктор
      * @param {T|null} defaultValue
      */
-    constructor(defaultValue: T | null = null) {
+    constructor(defaultValue = null) {
         super();
+        /**
+         * Флаг защиты от перезаписи
+         * @ignore
+         * @protected
+         * @type {boolean}
+         */
+        this.isOverwriteProtected = false;
         /**
          * @protected
          * @type {T}
          */
         this.value = defaultValue || null;
     }
-
     /**
-     * Возвращает значение
-     * @return {T|null}
-     * @deprecated не рекомендовано использовать метод `get()` без
-     * `guard` значения!
-     *
-     * Внимание. Пометка deprecated к данному методу не говорит о его ближайшем
-     * сокращении. Только лишь о безопасности.
+     * Простое автоматизированное свойство
+     * @param context
+     * @param value
+     * @param prop
      */
-    public get(): T | null;
-
-    /**
-     * Возвращает значение или guard если значение null
-     * @param {T} guard
-     * @return {T}
-     */
-    public get(guard: T): T;
-
+    static simplePropertyAccess(context, value, prop) {
+        if (!Guard_1.default.isSet(value))
+            return prop.get(null);
+        prop.set(value);
+        return context;
+    }
     /**
      * Возвращает значение или guard если значение null.
      *
@@ -110,13 +77,13 @@ export default class ObservableProperty<T> extends Observable {
      *
      *
      */
-    public get(guard?: T): T | null {
-        if (this.isNull() && guard !== null) return guard!;
-        else if (this.isNull()) return null;
-
+    get(guard) {
+        if (this.isNull() && guard !== null)
+            return guard;
+        else if (this.isNull())
+            return null;
         return this.value;
     }
-
     /**
      * Устанавливает флаг защиты от перезаписи.
      *
@@ -138,11 +105,10 @@ export default class ObservableProperty<T> extends Observable {
      *
      *
      */
-    public overwrite(flag: boolean): ObservableProperty<T> {
+    overwrite(flag) {
         this.isOverwriteProtected = flag;
         return this;
     }
-
     /**
      * Устанавливает значение и вызывает оповещение `change`, прослушиваемое
      * методом {@link ObservableProperty.change}.
@@ -160,8 +126,9 @@ export default class ObservableProperty<T> extends Observable {
      *
      *
      */
-    public set(value: T): ObservableProperty<T> {
-        if (this.isOverwriteProtected) return this;
+    set(value) {
+        if (this.isOverwriteProtected)
+            return this;
         const old = this.value;
         /**
          * @type {T}
@@ -171,15 +138,13 @@ export default class ObservableProperty<T> extends Observable {
         this.notificate("change", [old, value]);
         return this;
     }
-
     /**
      * Возвращает true, если объект null или undefined.
      * @return {boolean}
      */
-    public isNull(): boolean {
-        return Guard.isNone(this.value);
+    isNull() {
+        return Guard_1.default.isNone(this.value);
     }
-
     /**
      * Добавляет наблюдатель за изменением значения
      * @param {{function(value:T, oldValue:T?)}} observer - наблюдатель
@@ -203,18 +168,18 @@ export default class ObservableProperty<T> extends Observable {
      *
      *
      */
-    public change(observer: ObservablePropChangeHandler<T>): ObservableProperty<T> {
-        this.addObserver("change", (old: T, nw: T) => {
+    change(observer) {
+        this.addObserver("change", (old, nw) => {
             observer(nw, old);
         });
         return this;
     }
-
     /**
      * Преобразует объект в строку
      * @return {string}
      */
-    public toString(): string {
+    toString() {
         return this.get() + "";
     }
 }
+exports.default = ObservableProperty;

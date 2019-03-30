@@ -1,29 +1,8 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- + ,--. o                   |    o                                            +
- + |   |.,---.,---.,---.    |    .,---.,---.                                  +
- + |   |||---'|   ||   |    |    ||   ||   |                                  +
- + `--' ``---'`---|`---'    `---'``   '`---|                                  +
- +            `---'                    `---'                                  +
- +                                                                            +
- + Copyright (C) 2016-2019, Yakov Panov (Yakov Ling)                          +
- + Mail: <diegoling33@gmail.com>                                              +
- +                                                                            +
- + Это программное обеспечение имеет лицензию, как это сказано в файле        +
- + COPYING, который Вы должны были получить в рамках распространения ПО.      +
- +                                                                            +
- + Использование, изменение, копирование, распространение, обмен/продажа      +
- + могут выполняться исключительно в согласии с условиями файла COPYING.      +
- +                                                                            +
- + Файл: Guard.ts                                                             +
- + Файл создан: 23.11.2018 23:03:37                                           +
- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
 /**
  * Защита данных
  * @class Guard
  */
 export default class Guard {
-
     /**
      * Безопасная операция над переменной
      *
@@ -46,11 +25,7 @@ export default class Guard {
      * ```
      *
      */
-    public static variable<T>(testVar: any, callback: (value: T) => void, opt?: T): void {
-        if (testVar !== undefined && testVar !== null) callback(testVar);
-        else if (Guard.isSet(opt)) callback(opt!);
-    }
-
+    static variable<T>(testVar: any, callback: (value: T) => void, opt?: T): void;
     /**
      * Безопасная операция над переменной и выполнение операции через объект и контекст
      *
@@ -93,30 +68,19 @@ export default class Guard {
      * // mc.b = "theB"
      * ```
      */
-    public static variableAndSet<T>(testVar: any, callback: (value: T) => void, context: any, opt?: T): void {
-        Guard.variable(testVar, (value: T) => {
-            callback.call(context, value);
-        }, opt);
-    }
-
+    static variableAndSet<T>(testVar: any, callback: (value: T) => void, context: any, opt?: T): void;
     /**
      * Возвращает true, если obj не undefined
      * @param {*} obj
      * @return {boolean}
      */
-    public static isSet(obj: any): boolean {
-        return obj !== undefined;
-    }
-
+    static isSet(obj: any): boolean;
     /**
      * Возвращает true, если obj undefined или null.
      * @param {*} obj
      * @return {boolean}
      */
-    public static isNone(obj: any): obj is null {
-        return obj === undefined || obj === null;
-    }
-
+    static isNone(obj: any): obj is null;
     /**
      * Парсинг JSON *без try/catch* конструкции
      *
@@ -135,11 +99,5 @@ export default class Guard {
      * ```
      *
      */
-    public static safeJsonParse(jsonString: string, opt: any = {}): any {
-        try {
-            return JSON.parse(jsonString);
-        } catch (e) {
-            return opt;
-        }
-    }
+    static safeJsonParse(jsonString: string, opt?: any): any;
 }

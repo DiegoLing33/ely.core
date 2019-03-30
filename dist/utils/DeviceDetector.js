@@ -1,3 +1,4 @@
+"use strict";
 /******************************************************************************
  *                                                                            *
  * ,--. o                   |    o                                            *
@@ -21,85 +22,29 @@
  * Файл изменен: 27.02.2019 02:27:21                                          *
  *                                                                            *
  ******************************************************************************/
-
-import Observable from "../observable/Observable";
-import {SizeConstValue} from "../geometry/SizeValue";
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const Observable_1 = require("../observable/Observable");
+const SizeValue_1 = require("../values/SizeValue");
 /**
  * Детектор устройств и системы
  * @class DeviceDetector
  */
-export default class DeviceDetector extends Observable {
-
-    /**
-     * Стандартный детектор
-     */
-    public static default: DeviceDetector = new DeviceDetector();
-
-    /**
-     * Имена операционных систем
-     * @protected
-     * @ignore
-     */
-    protected static __osNames = [
-        {name: "Windows Phone", value: "Windows Phone", version: "OS"},
-        {name: "Windows", value: "Win", version: "NT"},
-        {name: "iPhone", value: "iPhone", version: "OS"},
-        {name: "iPad", value: "iPad", version: "OS"},
-        {name: "iPod", value: "iPod", version: "OS"},
-        {name: "Kindle", value: "Silk", version: "Silk"},
-        {name: "Android", value: "Android", version: "Android"},
-        {name: "PlayBook", value: "PlayBook", version: "OS"},
-        {name: "BlackBerry", value: "BlackBerry", version: "/"},
-        {name: "MacOS", value: "Mac", version: "OS X"},
-        {name: "Linux", value: "Linux", version: "rv"},
-        {name: "Palm", value: "Palm", version: "PalmOS"},
-    ];
-
-    /**
-     * Браузеры
-     * @protected
-     * @ignore
-     */
-    protected static __browsers = [
-        {name: "Chrome", value: "Chrome", version: "Chrome"},
-        {name: "Firefox", value: "Firefox", version: "Firefox"},
-        {name: "Safari", value: "Safari", version: "Version"},
-        {name: "Internet Explorer", value: "MSIE", version: "MSIE"},
-        {name: "Opera", value: "Opera", version: "Opera"},
-        {name: "BlackBerry", value: "CLDC", version: "CLDC"},
-        {name: "Mozilla", value: "Mozilla", version: "Mozilla"},
-    ];
-
-    /**
-     * Заголовки
-     * @protected
-     * @ignore
-     */
-    protected static __headers = [
-        navigator.platform,
-        navigator.userAgent,
-        navigator.appVersion,
-        navigator.vendor,
-    ];
-
-    /**
-     * Данные
-     * @ignore
-     * @protected
-     */
-    protected __data: { [key: string]: any } = {
-        browser: null,
-        os: null,
-    };
-
+class DeviceDetector extends Observable_1.default {
     /**
      * Конструктор
      */
-    public constructor() {
+    constructor() {
         super();
+        /**
+         * Данные
+         * @ignore
+         * @protected
+         */
+        this.__data = {
+            browser: null,
+            os: null,
+        };
     }
-
     /**
      * Добавляет наблюдатель: распознавание закончено
      *
@@ -107,15 +52,14 @@ export default class DeviceDetector extends Observable {
      *
      * @param o - наблюдатель
      */
-    public addDetectedObserver(o: () => void): DeviceDetector {
+    addDetectedObserver(o) {
         this.addObserver("detected", o);
         return this;
     }
-
     /**
      * Выполняет детектинг
      */
-    public detect(): void {
+    detect() {
         for (const os of DeviceDetector.__osNames)
             if (navigator.userAgent.indexOf(os.value) > -1) {
                 this.__data.os = os.name;
@@ -128,65 +72,107 @@ export default class DeviceDetector extends Observable {
             }
         this.notificate("detected");
     }
-
     /**
      * Возвращает имя системы
      * @return {string}
      */
-    public getOSName(): string {
+    getOSName() {
         return this.__data.os || "Undetected";
     }
-
     /**
      * Возвращает имя браузера
      * @return {string}
      */
-    public getBrowserName(): string {
+    getBrowserName() {
         return this.__data.browser || "Undefined";
     }
-
     /**
      * Возвращает true, если приложение запущено отдельным приложением**
      * @return {boolean}
      */
-    public isStandalone(): boolean {
+    isStandalone() {
         // @ts-ignore
         return window.navigator.standalone || false;
     }
-
     /**
      * Возвращает true, если система iOS
      * @return {boolean}
      */
-    public isIOS(): boolean {
+    isIOS() {
         return /iPad|iPhone|iPod/.test(this.__data.os);
     }
-
     /**
      * Возвращает соотнощение сторон
      * @return {number}
      */
-    public getRatio(): number {
+    getRatio() {
         return window.devicePixelRatio || 1;
     }
-
     /**
      * Возвращает реальный размер жкрана
      * @return {SizeConstValue}
      */
-    public getScreenSize(): SizeConstValue {
-        return new SizeConstValue({
+    getScreenSize() {
+        return new SizeValue_1.SizeConstValue({
             height: window.screen.height * this.getRatio(),
             width: window.screen.width * this.getRatio(),
         });
     }
-
     /**
      * Возвращает true, если устройство - iPhone X
      * @return {boolean}
      */
-    public isIPhoneX(): boolean {
+    isIPhoneX() {
         const size = this.getScreenSize();
         return this.isIOS() && size.width() === 1125 && size.height() === 2436;
     }
 }
+/**
+ * Стандартный детектор
+ */
+DeviceDetector.default = new DeviceDetector();
+/**
+ * Имена операционных систем
+ * @protected
+ * @ignore
+ */
+DeviceDetector.__osNames = [
+    { name: "Windows Phone", value: "Windows Phone", version: "OS" },
+    { name: "Windows", value: "Win", version: "NT" },
+    { name: "iPhone", value: "iPhone", version: "OS" },
+    { name: "iPad", value: "iPad", version: "OS" },
+    { name: "iPod", value: "iPod", version: "OS" },
+    { name: "Kindle", value: "Silk", version: "Silk" },
+    { name: "Android", value: "Android", version: "Android" },
+    { name: "PlayBook", value: "PlayBook", version: "OS" },
+    { name: "BlackBerry", value: "BlackBerry", version: "/" },
+    { name: "MacOS", value: "Mac", version: "OS X" },
+    { name: "Linux", value: "Linux", version: "rv" },
+    { name: "Palm", value: "Palm", version: "PalmOS" },
+];
+/**
+ * Браузеры
+ * @protected
+ * @ignore
+ */
+DeviceDetector.__browsers = [
+    { name: "Chrome", value: "Chrome", version: "Chrome" },
+    { name: "Firefox", value: "Firefox", version: "Firefox" },
+    { name: "Safari", value: "Safari", version: "Version" },
+    { name: "Internet Explorer", value: "MSIE", version: "MSIE" },
+    { name: "Opera", value: "Opera", version: "Opera" },
+    { name: "BlackBerry", value: "CLDC", version: "CLDC" },
+    { name: "Mozilla", value: "Mozilla", version: "Mozilla" },
+];
+/**
+ * Заголовки
+ * @protected
+ * @ignore
+ */
+DeviceDetector.__headers = [
+    navigator.platform,
+    navigator.userAgent,
+    navigator.appVersion,
+    navigator.vendor,
+];
+exports.default = DeviceDetector;

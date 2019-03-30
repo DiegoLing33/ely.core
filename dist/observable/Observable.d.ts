@@ -17,79 +17,53 @@
  *                                                                            *
  * Проект: ely.core                                                           *
  *                                                                            *
- * Файл: LocalStorage.ts                                                      *
- * Файл изменен: 27.03.2019 18:56:06                                          *
+ * Файл: Observable.ts                                                        *
+ * Файл изменен: 27.02.2019 01:18:10                                          *
  *                                                                            *
  ******************************************************************************/
-
-import Time from "../time/Time";
-import Guard from "../utils/Guard";
-import Cookies from "./Cookies";
-
 /**
- * Локальное хранилище
- * @class LocalStorage
+ * Прослушиваемый протокол
+ * @class Observable
  */
-export default class LocalStorage {
-
+export default class Observable {
     /**
-     * Стандартное локальное хранилище
-     * @type {LocalStorage}
-     */
-    public static default: LocalStorage = new LocalStorage({name: "ef"});
-
-    /**
-     * Имя хранилища
+     * Слушатели
      * @protected
      * @ignore
      */
-    protected readonly __name: string;
-
+    protected observers: {
+        [event: string]: Array<() => void>;
+    };
     /**
-     * Создает локальное хранилище
-     * @param {{ name: string }} props
+     * Добавляет наблюдатель
+     * @param {String} event - событие
+     * @param {Function} observer - наблюдатель
      */
-    public constructor(props: { name: string }) {
-        this.__name = props.name;
-    }
-
+    addObserver(event: string, observer: any): Observable;
     /**
-     * Возвращает имя хранилища
-     * @return {string}
+     * Удаляет обработчик
+     * @param {string} event - событие
+     * @param {Function} observer - обработчик
      */
-    public getName(): string {
-        return this.__name;
-    }
-
+    removeObserver(event: string, observer: any): Observable;
     /**
-     * Устанавливает значение локального хранилища
-     * @param {string} name - имя переменной
-     * @param {*} value - значение
-     * @param {Time|number} [time] - срок хранения
+     * Удаляет все обработчики события или событий
+     * @param {String} [event] - Событие
      */
-    public set(name: string, value: any, time?: Time | number): LocalStorage {
-        name = `${this.getName()}-${name}`;
-        if (time && time instanceof Time) time = time.getTime();
-        Cookies.set(name, JSON.stringify(value), {expires: time || 1000 * 60 * 60 * 24 * 356});
-        return this;
-    }
-
+    removeAllObservers(event?: string): Observable;
     /**
-     * Возвращает значение хранилища
-     * @param {string} name
-     * @return {*}
+     * Оповещает всех наблюдателей о совершении события
+     *
+     * @param {string} event - событие
+     * @param {...*} args - аргументы события
      */
-    public get(name: string): any {
-        name = `${this.getName()}-${name}`;
-        return Guard.safeJsonParse(Cookies.get(name) || "", null);
-    }
-
+    notify(event: string, ...args: any): Observable;
     /**
-     * Удаляет переменную из локального хранилища
-     * @param name
+     * Сообщает о событие всем наблюдателям
+     * @param {String} event - событие
+     * @param {*[]} args - массив аргументов
+     *
+     * @deprecated {@link Observable.notify}
      */
-    public remove(name: string): LocalStorage {
-        return this.set(name, null, -1);
-    }
-
+    protected notificate(event: string, args?: any): void;
 }

@@ -1,3 +1,4 @@
+"use strict";
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + ,--. o                   |    o                                            +
  + |   |.,---.,---.,---.    |    .,---.,---.                                  +
@@ -17,119 +18,100 @@
  + Файл: ObservableDictionary                                           +
  + Файл создан: 23.11.2018 23:03:37                                           +
  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-import Guard from "../../utils/Guard";
-import Utils from "../../utils/Utils";
-import ObservableProperty from "./ObservableProperty";
-
-/**
- * Элемент свойства словаря
- */
-interface IObservableDictionaryItem<T> {
-    [key: string]: T;
-}
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const Guard_1 = require("../../utils/Guard");
+const Utils_1 = require("../../utils/Utils");
+const ObservableProperty_1 = require("./ObservableProperty");
 /**
  * Свойство словаря
  * @class ObservableDictionary
  * @template T
  */
-export default class ObservableDictionary<T> extends ObservableProperty<IObservableDictionaryItem<T>> {
-
+class ObservableDictionary extends ObservableProperty_1.default {
     /**
      * Конструктор
      * @param defaultValue
      */
-    constructor(defaultValue: IObservableDictionaryItem<T> = {}) {
+    constructor(defaultValue = {}) {
         super(defaultValue);
     }
-
     /**
      * Возвращакт словарь, как объекта
      */
-    public get(): IObservableDictionaryItem<T> {
-        return super.get()!;
+    get() {
+        return super.get();
     }
-
     /**
      * Слушатель добавления новго элемента в словаре
      * @param observer
      */
-    public addNewItemObserver(observer: (key: string, value: T) => void): ObservableDictionary<T> {
+    addNewItemObserver(observer) {
         this.addObserver("newItem", observer);
         return this;
     }
-
-    public getSorted(handler?: (a: string, b: string) => number): ObservableDictionary<T> {
-        const ordered = new ObservableDictionary<T>();
-        Object.keys(this.value!).sort(handler).forEach((key: string) => {
-            ordered.add(key, this.value![key]);
+    getSorted(handler) {
+        const ordered = new ObservableDictionary();
+        Object.keys(this.value).sort(handler).forEach((key) => {
+            ordered.add(key, this.value[key]);
         });
         return this;
     }
-
     /**
      * Слушатель удаления элемента в словаре
      * @param observer
      */
-    public addRemoveItemObserver(observer: (key: string, value: T) => void): ObservableDictionary<T> {
+    addRemoveItemObserver(observer) {
         this.addObserver("removeItem", observer);
         return this;
     }
-
     /**
      * Возвращает элемент словаря или NULL
      * @param key
      */
-    public item(key: string): T | null {
+    item(key) {
         const val = (this.value || {})[key];
-        return Guard.isNone(val) ? null : val;
+        return Guard_1.default.isNone(val) ? null : val;
     }
-
     /**
      * Возвращает элемент по индексу
      * @param index
      */
-    public itemByIndex(index: number): { key: string, value: T } | null {
-        const key = Object.keys(this.value!)[index];
-        return key ? {key, value: this.value![key]} : null;
+    itemByIndex(index) {
+        const key = Object.keys(this.value)[index];
+        return key ? { key, value: this.value[key] } : null;
     }
-
     /**
      * Добавляет значение в словарь
      * @param key   - ключ
      * @param value - значение
      */
-    public add(key: string, value: T): ObservableDictionary<T> {
-        this.value![key] = value;
+    add(key, value) {
+        this.value[key] = value;
         this.notificate("change", [this.value]);
         this.notificate("newItem", [key, value]);
         return this;
     }
-
     /**
      * Удаляет значение из словаря
      * @param key
      */
-    public remove(key: string): boolean {
-        if (this.value!.hasOwnProperty(key)) {
-            const copy = this.value![key];
-            delete this.value![key];
+    remove(key) {
+        if (this.value.hasOwnProperty(key)) {
+            const copy = this.value[key];
+            delete this.value[key];
             this.notificate("change", [this.value]);
             this.notificate("removeItem", [key, copy]);
             return true;
         }
         return false;
     }
-
     /**
      * Очищает словарь
      */
-    public clear(): ObservableDictionary<T> {
+    clear() {
         this.set({});
         return this;
     }
-
     /**
      * Возвращает количество элементов в словаре
      *
@@ -148,12 +130,11 @@ export default class ObservableDictionary<T> extends ObservableProperty<IObserva
      *
      *
      */
-    public count() {
+    count() {
         let count = 0;
-        Utils.forEach(this.value, () => count++);
+        Utils_1.default.forEach(this.value, () => count++);
         return count;
     }
-
     /**
      * Цикл по всем элементам словаря
      * @param iterator
@@ -177,19 +158,17 @@ export default class ObservableDictionary<T> extends ObservableProperty<IObserva
      *
      *
      */
-    public forEach(iterator: (key: string, value: T, iteration: number) => void): ObservableDictionary<T> {
-        Utils.forEach(this.value, iterator);
+    forEach(iterator) {
+        Utils_1.default.forEach(this.value, iterator);
         return this;
     }
-
     /**
      * Возвращает true, если существует ключ
      * @param key
      */
-    public contains(key: string): boolean {
-        return this.value!.hasOwnProperty(key);
+    contains(key) {
+        return this.value.hasOwnProperty(key);
     }
-
     /**
      * Возвращает первый индекс значения или null, если значение не найдено.
      *
@@ -197,15 +176,15 @@ export default class ObservableDictionary<T> extends ObservableProperty<IObserva
      *
      * @param value
      */
-    public keyOf(value: T): string | null {
+    keyOf(value) {
         let searched = null;
-        Utils.forEach(this.value, (index: any, value1: any) => {
+        Utils_1.default.forEach(this.value, (index, value1) => {
             if (value1 === value) {
                 searched = index;
-                return Utils.BREAK_FLAG;
+                return Utils_1.default.BREAK_FLAG;
             }
         });
         return searched;
     }
-
 }
+exports.default = ObservableDictionary;
