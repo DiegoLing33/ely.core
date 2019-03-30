@@ -86,6 +86,14 @@ export class RectConst {
             z: this.position().z() + this.size().depth(),
         });
     }
+
+    /**
+     * Создает и возвращает прямоугольник
+     * @return {Rect}
+     */
+    public getRect(): Rect {
+        return new Rect({position: this.position(), size: this.size()});
+    }
 }
 
 /**
@@ -148,6 +156,14 @@ export default class Rect extends RectConst {
         if (value === undefined) return this.__position;
         this.__position = value;
         return this;
+    }
+
+    /**
+     * Создает и вовзращает прямоугольник с постоянными значениями
+     * @return {RectConst}
+     */
+    public getConst(): RectConst {
+        return new RectConst({size: this.size(), position: this.position()});
     }
 }
 

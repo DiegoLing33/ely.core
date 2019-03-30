@@ -24,7 +24,7 @@
 
 window.onload = () => {
 
-    const cnv = new Canvas({size: new SizeValue({width: 500, height: 500})});
+    let cnv = new Canvas({size: new SizeValue({width: 500, height: 500})});
     const layer = cnv.addLayer();
 
     console.log(cnv);

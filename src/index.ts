@@ -55,30 +55,13 @@ import SizeValue, {SizeConstValue} from "./geometry/SizeValue";
 import Sphere, {SphereConst} from "./geometry/Sphere";
 import Geometry from "./geometry/utils/Geometry";
 
-import HTMLView, {IHTMLViewOptions} from "./dom/HTMLView";
-
-/**
- * Запросы
- */
-const Requests = {
-    SendFileRequest,
-    SendJsonRequest,
-    URLRequest,
-};
-
-/**
- * Пользователь
- */
-const User = {
-    LocalStorage,
-};
-
-/**
- * Запросы
- */
-const Web = {
-    Requests,
-};
+import Canvas from "./canvas/Canvas";
+import CanvasLayer from "./canvas/canvasLayer";
+import ContextElement from "./canvas/context/ContextElement";
+import ContextImage from "./canvas/context/ContextImage";
+import ContextRect from "./canvas/context/ContextRect";
+import ContextText from "./canvas/context/ContextText";
+import HTMLView from "./dom/HTMLView";
 
 export {
     Color,
@@ -111,12 +94,21 @@ export {
 
     EFMath,
 
-    Web,
+    SendFileRequest,
+    SendJsonRequest,
+    URLRequest,
 
-    User,
+    LocalStorage,
 
     Encrypt,
 
     HTMLView,
-    IHTMLViewOptions,
+    // IHTMLViewOptions,
+
+    Canvas,
+    CanvasLayer,
+    ContextElement,
+    ContextImage,
+    ContextRect,
+    ContextText,
 };
