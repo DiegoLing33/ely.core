@@ -10,7 +10,7 @@ import cjs from "rollup-plugin-commonjs";
 const sourceDirPath = "src";
 const productsDirPath = "products";
 
-const mainSourceFilePath = `${sourceDirPath}/index.ts`;
+const mainSourceFilePath = `${sourceDirPath}/ely.core.ts`;
 const appSourceFilePath = `${sourceDirPath}/app.ts`;
 
 //

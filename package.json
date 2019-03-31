@@ -1,6 +1,6 @@
 {
   "name": "ely.core",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "The core library of the ely framework",
   "scripts": {
     "build": "tsc",
