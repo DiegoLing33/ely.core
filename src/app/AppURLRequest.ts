@@ -29,7 +29,7 @@ import {
     ITRequestData, TURLCallback,
     TURLProgressChangedCallback,
     URLRequestHeaderName,
-    URLRequestMethod
+    URLRequestMethod,
 } from "../web/request/URLRequest";
 
 /**
