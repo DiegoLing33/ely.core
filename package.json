@@ -17,7 +17,8 @@
   "license": "ISC",
   "files": [
     "products/ely.core.js",
-    "types/**/*"
+    "types/**/*",
+    "dist/ely.core.app.js"
   ],
   "main": "products/ely.core.js",
   "types": "types/ely.core.d.ts",
