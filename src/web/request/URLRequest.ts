@@ -50,6 +50,7 @@ export enum URLRequestMethod {
  */
 export enum URLRequestHeaderName {
     contentType = "Content-type",
+    contentLength = "Content-Length",
 }
 
 /**
@@ -203,7 +204,7 @@ export default class URLRequest extends Observable {
      *
      * Имя обсервера: progressChanged
      *
-     * @param o - наблюдатель
+     * @param {function(loadedBytes: number, totalBytes: number)} o - наблюдатель
      */
     public addProgressChangedObserver(o: TURLProgressChangedCallback): URLRequest {
         this.addObserver("progressChanged", o);
@@ -239,16 +240,16 @@ export default class URLRequest extends Observable {
         this.getXMLHttpRequest().open(this.getMethod(), this.getURL() + "?" +
             this.__getParametersString(), this.isAsync());
         this.getXMLHttpRequest().onprogress = ev => {
-            this.notificate("progressChanged", [ev.loaded, ev.total]);
+            this.notify("progressChanged", ev.loaded, ev.total);
         };
         this.getXMLHttpRequest().onreadystatechange = () => {
             if (this.getXMLHttpRequest().readyState === 4) {
                 if (this.getXMLHttpRequest().status === 200) {
                     if (callback) callback(this.getXMLHttpRequest().responseText, true);
-                    this.notificate("ready", [this.getXMLHttpRequest().responseText, true]);
+                    this.notify("ready", this.getXMLHttpRequest().responseText, true);
                 } else {
                     if (callback) callback(null, false);
-                    this.notificate("ready", [null, false]);
+                    this.notify("ready", null, false);
                 }
             }
         };
